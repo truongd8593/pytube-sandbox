@@ -1,6 +1,8 @@
 import argparse
+import traceback
 
 from pytube import YouTube
+from pytube.exceptions import PytubeError
 
 
 def main() -> None:
@@ -15,15 +17,14 @@ def main() -> None:
 
     try:
         yt = YouTube(args.url)
-        yt.streams
-        ... .filter(progressive=True, file_extension='mp4')
-        ... .order_by('resolution')
-        ... .desc()
-        ... .first()
-        ... .download()
-    except:
-        print("Some Error!")
-    print('Task Completed!')
+        yt.streams\
+            .filter(progressive=True, file_extension='mp4')\
+            .order_by('resolution')\
+            .desc()\
+            .first()\
+            .download()
+    except PytubeError:
+        traceback.print_exc()
 
 
 if __name__ == "__main__":
